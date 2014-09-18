@@ -19,18 +19,27 @@
 			<h1><span class="glyphicon glyphicon-flash"></span> Ducks Fly!</h1>
 		</div>
 
+		@if ($errors->has())
+		
+			<div class="alert alert-danger">
+				@foreach ($errors->all() as $error)
+					{{ $error }}<br>		
+				@endforeach
+			</div>
+		
+		@endif
+
 		<!-- FORM STARTS HERE -->
 		<form method="POST" action="/ducks" novalidate>
 
 			<div class="form-group @if ($errors->has('name')) has-error @endif">
 				<label for="name">Name</label>
-				<input type="text" id="name" class="form-control" name="name" placeholder="Somebody Important">
+				<input type="text" id="name" class="form-control" name="name" placeholder="Somebody Awesome" value="{{ Input::old('name') }}">
 				@if ($errors->has('name')) <p class="help-block">{{ $errors->first('name') }}</p> @endif
 			</div>
 
 			<div class="form-group @if ($errors->has('email')) has-error @endif">
-				<label for="email">Email</label>
-				<input type="email" id="email" class="form-control" name="email" placeholder="super@cool.com">
+				<input type="text" id="email" class="form-control" name="email" placeholder="super&64;cool.com" value="{{ Input::old('email') }}">
 				@if ($errors->has('email')) <p class="help-block">{{ $errors->first('email') }}</p> @endif
 			</div>
 

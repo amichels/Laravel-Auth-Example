@@ -11,17 +11,9 @@ Route::post('ducks', function(){
 
 	// process the form here
 
-	// create the validation rules ------------------------
-	$rules = array(
-		'name'             => 'required', 						// just a normal required validation
-		'email'            => 'required|email|unique:ducks', 	// required and must be unique in the ducks table
-		'password'         => 'required',
-		'password_confirm' => 'required|same:password' 			// required and has to match the password field
-	);
-
 	// do the validation ----------------------------------
 	// validate against the inputs from our form
-	$validator = Validator::make(Input::all(), $rules);
+	$validator = Validator::make(Input::all(), Duck::$rules, Duck::$messages);
 
 	// check if the validator failed -----------------------
 	if ($validator->fails()) {
@@ -31,7 +23,8 @@ Route::post('ducks', function(){
 
 		// redirect our user back to the form with the errors from the validator
 		return Redirect::to('ducks')
-			->withErrors($validator);
+			->withErrors($validator)
+			->withInput(Input::except('password', 'password_confirm'));
 
 	} else {
 		// validation successful ---------------------------
